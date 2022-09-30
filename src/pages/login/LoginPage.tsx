@@ -67,6 +67,9 @@ const LoginPage = () => {
     memberList.map((item, index) => {
       if (item.id === id && item.pw === pw) alert("Login Success");
     });
+
+    // 로그인 성공한 경우
+    navigate("/list");
   };
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +94,7 @@ const LoginPage = () => {
         </InputsContainer>
 
         <SignupTextContainer>
-          <SignUpText onClick={() => navigate("/join")}>Sign In</SignUpText>
+          <SignUpText onClick={() => navigate("/join")}>Sign Up</SignUpText>
         </SignupTextContainer>
 
         <LoginButtonContainer>
