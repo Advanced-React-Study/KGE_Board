@@ -51,7 +51,7 @@ const InputWrapper = styled.div`
   }
 `;
 
-interface InputsInterface {
+interface InputsTypes {
   id: string;
   pw: string;
 }
@@ -59,7 +59,7 @@ interface InputsInterface {
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const [inputs, setInputs] = useState<InputsInterface>({ id: "", pw: "" });
+  const [inputs, setInputs] = useState<InputsTypes>({ id: "", pw: "" });
 
   const { id, pw } = inputs;
 

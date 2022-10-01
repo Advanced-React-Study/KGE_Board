@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/Button";
@@ -40,8 +41,31 @@ const InputWrapper = styled.div`
   }
 `;
 
+interface UserInfoTypes {
+  nickName: string;
+  id: string;
+  pw: string;
+}
+
 const JoinPage = () => {
   const navigate = useNavigate();
+
+  const [userInfo, setUserInfo] = useState<UserInfoTypes>({
+    nickName: "",
+    id: "",
+    pw: "",
+  });
+
+  const { nickName, id, pw } = userInfo;
+
+  const onClickJoinButton = () => {
+    console.log(userInfo);
+    navigate("/");
+  };
+
+  const onChangeUserInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   return (
     <OuterLayout>
@@ -49,26 +73,34 @@ const JoinPage = () => {
         <InputsContainer>
           <IDPWText>NICKNAME</IDPWText>
           <InputWrapper>
-            <Input />
+            <Input
+              value={nickName}
+              name="nickName"
+              onChange={onChangeUserInfo}
+            />
           </InputWrapper>
         </InputsContainer>
 
         <InputsContainer>
           <IDPWText>ID</IDPWText>
           <InputWrapper>
-            <Input />
+            <Input value={id} name="id" onChange={onChangeUserInfo} />
           </InputWrapper>
         </InputsContainer>
 
         <InputsContainer>
           <IDPWText>PASSWORD</IDPWText>
           <InputWrapper>
-            <Input />
+            <Input value={pw} name="pw" onChange={onChangeUserInfo} />
           </InputWrapper>
         </InputsContainer>
 
         <JoinButtonContainer>
-          <Button fontColor="white" hoverColor="orange">
+          <Button
+            fontColor="white"
+            hoverColor="orange"
+            onClick={onClickJoinButton}
+          >
             JOIN
           </Button>
         </JoinButtonContainer>

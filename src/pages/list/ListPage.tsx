@@ -23,7 +23,7 @@ const ListPage = () => {
             navigate("/writing");
           }}
         >
-          Writing
+          WRITING
         </Button>
       </HeaderContainer>
     </Layout>

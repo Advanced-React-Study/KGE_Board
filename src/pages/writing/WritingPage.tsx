@@ -1,13 +1,19 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 
-const Layout = styled.div`
+const OuterLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 50px;
+`;
+
+const InnerLayout = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const TitleContainer = styled.div`
@@ -48,27 +54,54 @@ const WritingText = styled.p`
   width: 70px;
 `;
 
+interface TextsTypes {
+  title: string;
+  main: string;
+}
+
 const WritingPage = () => {
   const navigate = useNavigate();
 
+  const [texts, setTexts] = useState<TextsTypes>({
+    title: "",
+    main: "",
+  });
+
+  const { title, main } = texts;
+
+  const onClickUploadButton = () => {
+    console.log(texts);
+    navigate("/list");
+  };
+
+  const onChangeText = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setTexts((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
-    <Layout>
-      <TitleContainer>
-        <WritingText>TITLE</WritingText>
-        <TitleInputWrapper>
-          <Input />
-        </TitleInputWrapper>
-      </TitleContainer>
+    <OuterLayout>
+      <InnerLayout>
+        <TitleContainer>
+          <WritingText>TITLE</WritingText>
+          <TitleInputWrapper>
+            <Input value={title} name="title" onChange={onChangeText} />
+          </TitleInputWrapper>
+        </TitleContainer>
 
-      <MainContainer>
-        <WritingText>MAIN</WritingText>
-        <BodyTextArea />
-      </MainContainer>
+        <MainContainer>
+          <WritingText>MAIN</WritingText>
+          <BodyTextArea value={main} name="main" onChange={onChangeText} />
+        </MainContainer>
 
-      <FooterContainer>
-        <Button fontColor="white">UPLOAD</Button>
-      </FooterContainer>
-    </Layout>
+        <FooterContainer>
+          <Button fontColor="white" onClick={onClickUploadButton}>
+            UPLOAD
+          </Button>
+        </FooterContainer>
+      </InnerLayout>
+    </OuterLayout>
   );
 };
 
