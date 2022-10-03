@@ -1,7 +1,4 @@
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import { loginState } from "../states/loginState";
-import { useNavigate } from "react-router-dom";
 
 const Layout = styled.div`
   display: flex;
@@ -20,25 +17,13 @@ const Circle = styled.p`
 
 const IsLoginSign = styled.p`
   color: #8b8b8b;
-  cursor: pointer;
 `;
 
 const Header = () => {
-  const navigate = useNavigate();
-
-  const [userName, setUserName] = useRecoilState(loginState);
-
-  const onClickLoginSign = () => {
-    if (userName !== "") setUserName("");
-    navigate("/");
-  };
-
   return (
     <Layout>
       <Circle>●</Circle>
-      <IsLoginSign onClick={onClickLoginSign}>
-        {userName === "" ? "LOGIN" : "LOGOUT"}
-      </IsLoginSign>
+      <IsLoginSign>Login</IsLoginSign>
     </Layout>
   );
 };
