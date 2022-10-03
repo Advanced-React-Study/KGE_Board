@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { memberList } from "../join/MemberList";
+import { useRecoilState } from "recoil";
+import { loginState } from "../../states/loginState";
 
 const OuterLayout = styled.div`
   display: flex;
@@ -59,17 +61,29 @@ interface InputsTypes {
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  const [userName, setUserName] = useRecoilState(loginState);
   const [inputs, setInputs] = useState<InputsTypes>({ id: "", pw: "" });
 
   const { id, pw } = inputs;
 
   const onClickLoginButton = () => {
-    memberList.map((item, index) => {
-      if (item.id === id && item.pw === pw) alert("Login Success");
+    let isLoginSuccess = false;
+
+    if (id === "" || pw === "") {
+      alert("Please fill in all items");
+      return;
+    }
+
+    memberList.map((item) => {
+      if (item.id === id && item.pw === pw) {
+        alert("Login Success");
+        isLoginSuccess = true;
+        setUserName(item.nickName);
+        navigate("/list");
+      }
     });
 
-    // 로그인 성공한 경우
-    navigate("/list");
+    if (!isLoginSuccess) alert("Login failed");
   };
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {

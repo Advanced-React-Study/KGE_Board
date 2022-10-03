@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import { memberList } from "./MemberList";
 
 const OuterLayout = styled.div`
   display: flex;
@@ -58,8 +59,17 @@ const JoinPage = () => {
 
   const { nickName, id, pw } = userInfo;
 
+  // useCallback, useMemo 차이
+  // useCallback -> 메모이제이션된 '함수'를 반환
+  // useMemo -> 메모이제이션된 '값'을 반환
+
   const onClickJoinButton = () => {
-    console.log(userInfo);
+    if (nickName === "" || id === "" || pw === "") {
+      alert("Please fill in all items");
+      return;
+    }
+
+    memberList.push({ nickName: nickName, id: id, pw: pw });
     navigate("/");
   };
 
