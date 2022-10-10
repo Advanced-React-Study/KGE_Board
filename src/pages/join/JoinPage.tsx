@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import { memberList } from "./MemberList";
 
 const OuterLayout = styled.div`
   display: flex;
@@ -42,40 +40,8 @@ const InputWrapper = styled.div`
   }
 `;
 
-interface UserInfoTypes {
-  nickName: string;
-  id: string;
-  pw: string;
-}
-
 const JoinPage = () => {
   const navigate = useNavigate();
-
-  const [userInfo, setUserInfo] = useState<UserInfoTypes>({
-    nickName: "",
-    id: "",
-    pw: "",
-  });
-
-  const { nickName, id, pw } = userInfo;
-
-  // useCallback, useMemo 차이
-  // useCallback -> 메모이제이션된 '함수'를 반환
-  // useMemo -> 메모이제이션된 '값'을 반환
-
-  const onClickJoinButton = () => {
-    if (nickName === "" || id === "" || pw === "") {
-      alert("Please fill in all items");
-      return;
-    }
-
-    memberList.push({ nickName: nickName, id: id, pw: pw });
-    navigate("/");
-  };
-
-  const onChangeUserInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
   return (
     <OuterLayout>
@@ -83,34 +49,26 @@ const JoinPage = () => {
         <InputsContainer>
           <IDPWText>NICKNAME</IDPWText>
           <InputWrapper>
-            <Input
-              value={nickName}
-              name="nickName"
-              onChange={onChangeUserInfo}
-            />
+            <Input />
           </InputWrapper>
         </InputsContainer>
 
         <InputsContainer>
           <IDPWText>ID</IDPWText>
           <InputWrapper>
-            <Input value={id} name="id" onChange={onChangeUserInfo} />
+            <Input />
           </InputWrapper>
         </InputsContainer>
 
         <InputsContainer>
           <IDPWText>PASSWORD</IDPWText>
           <InputWrapper>
-            <Input value={pw} name="pw" onChange={onChangeUserInfo} />
+            <Input />
           </InputWrapper>
         </InputsContainer>
 
         <JoinButtonContainer>
-          <Button
-            fontColor="white"
-            hoverColor="orange"
-            onClick={onClickJoinButton}
-          >
+          <Button fontColor="white" hoverColor="orange">
             JOIN
           </Button>
         </JoinButtonContainer>

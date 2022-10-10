@@ -4,8 +4,6 @@ import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { memberList } from "../join/MemberList";
-import { useRecoilState } from "recoil";
-import { loginState } from "../../states/loginState";
 
 const OuterLayout = styled.div`
   display: flex;
@@ -53,7 +51,7 @@ const InputWrapper = styled.div`
   }
 `;
 
-interface InputsTypes {
+interface InputsInterface {
   id: string;
   pw: string;
 }
@@ -61,29 +59,14 @@ interface InputsTypes {
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useRecoilState(loginState);
-  const [inputs, setInputs] = useState<InputsTypes>({ id: "", pw: "" });
+  const [inputs, setInputs] = useState<InputsInterface>({ id: "", pw: "" });
 
   const { id, pw } = inputs;
 
   const onClickLoginButton = () => {
-    let isLoginSuccess = false;
-
-    if (id === "" || pw === "") {
-      alert("Please fill in all items");
-      return;
-    }
-
-    memberList.map((item) => {
-      if (item.id === id && item.pw === pw) {
-        alert("Login Success");
-        isLoginSuccess = true;
-        setUserName(item.nickName);
-        navigate("/list");
-      }
+    memberList.map((item, index) => {
+      if (item.id === id && item.pw === pw) alert("Login Success");
     });
-
-    if (!isLoginSuccess) alert("Login failed");
   };
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +91,7 @@ const LoginPage = () => {
         </InputsContainer>
 
         <SignupTextContainer>
-          <SignUpText onClick={() => navigate("/join")}>Sign Up</SignUpText>
+          <SignUpText onClick={() => navigate("/join")}>Sign In</SignUpText>
         </SignupTextContainer>
 
         <LoginButtonContainer>
