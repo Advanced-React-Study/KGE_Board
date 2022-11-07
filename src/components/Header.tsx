@@ -26,10 +26,13 @@ const IsLoginSign = styled.p`
 const Header = () => {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useRecoilState(loginState);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
 
   const onClickLoginSign = () => {
-    if (userName !== "") setUserName("");
+    if (isLogin) {
+      alert("Logout");
+      setIsLogin(false);
+    }
     navigate("/");
   };
 
@@ -37,7 +40,7 @@ const Header = () => {
     <Layout>
       <Circle>●</Circle>
       <IsLoginSign onClick={onClickLoginSign}>
-        {userName === "" ? "LOGIN" : "LOGOUT"}
+        {isLogin ? "LOGOUT" : "LOGIN"}
       </IsLoginSign>
     </Layout>
   );

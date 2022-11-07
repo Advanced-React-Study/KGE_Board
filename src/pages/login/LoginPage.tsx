@@ -6,6 +6,7 @@ import Input from "../../components/Input";
 import { memberList } from "../join/MemberList";
 import { useRecoilState } from "recoil";
 import { loginState } from "../../states/loginState";
+import { postLogin } from "../../api/CallingUser";
 
 const OuterLayout = styled.div`
   display: flex;
@@ -61,29 +62,42 @@ interface InputsTypes {
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useRecoilState(loginState);
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
   const [inputs, setInputs] = useState<InputsTypes>({ id: "", pw: "" });
 
   const { id, pw } = inputs;
 
   const onClickLoginButton = () => {
-    let isLoginSuccess = false;
+    // let isLoginSuccess = false;
 
     if (id === "" || pw === "") {
       alert("Please fill in all items");
       return;
     }
 
-    memberList.map((item) => {
-      if (item.id === id && item.pw === pw) {
-        alert("Login Success");
-        isLoginSuccess = true;
-        setUserName(item.nickName);
+    const postLoginAPI = async () => {
+      try {
+        const a = await postLogin(id, pw);
+        console.log(a);
         navigate("/list");
+        setIsLogin(true);
+      } catch (err) {
+        alert("Please check your ID and PW again");
       }
-    });
+    };
 
-    if (!isLoginSuccess) alert("Login failed");
+    postLoginAPI();
+
+    // memberList.map((item) => {
+    //   if (item.id === id && item.pw === pw) {
+    //     alert("Login Success");
+    //     isLoginSuccess = true;
+    //     setUserName(item.nickName);
+    //     navigate("/list");
+    //   }
+    // });
+
+    // if (!isLoginSuccess) alert("Login failed");
   };
 
   const onChangeInputs = (e: React.ChangeEvent<HTMLInputElement>) => {

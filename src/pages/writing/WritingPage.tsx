@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { postWriting } from "../../api/CallingUser";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 
@@ -70,8 +71,22 @@ const WritingPage = () => {
   const { title, main } = texts;
 
   const onClickUploadButton = () => {
-    console.log(texts);
-    navigate("/list");
+    if (title === "" || main === "") {
+      alert("Please fill in all itmes");
+      return;
+    }
+
+    const postWritingAPI = async () => {
+      try {
+        await postWriting(title, main);
+        alert("Post upload complete");
+        navigate("/list");
+      } catch (err) {
+        alert("error");
+      }
+    };
+
+    postWritingAPI();
   };
 
   const onChangeText = (

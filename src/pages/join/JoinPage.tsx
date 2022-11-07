@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { postJoin } from "../../api/CallingUser";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import { memberList } from "./MemberList";
@@ -69,8 +70,16 @@ const JoinPage = () => {
       return;
     }
 
-    memberList.push({ nickName: nickName, id: id, pw: pw });
-    navigate("/");
+    const postJoinAPI = async () => {
+      try {
+        await postJoin(id, pw, nickName);
+        navigate("/");
+      } catch (err) {
+        alert("error");
+      }
+    };
+
+    postJoinAPI();
   };
 
   const onChangeUserInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
